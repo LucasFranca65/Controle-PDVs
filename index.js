@@ -4,6 +4,8 @@
     const handlebars = require('express-handlebars')
     const bodyParser = require('body-parser')
     const path = require('path')
+    const session = require('express-session')
+    const flash = require('connect-flash')
 //Variaveis Globais
     const PORT = 1001
     const app = express()
@@ -13,6 +15,23 @@
     const controle = require('./routes/controle')
 
 //Configurações
+    ///Sessão
+    app.use(session({
+        secret: "keyjhglas@@dghajkhgsdfjdsf$#@%6jkbdsfhjbfgfgdf564864d8f6g4fdglnaSD@$#@$%¨)i4KYh**sjkdfhwoeu&&&hxweubx",
+        resave: true,
+        saveUninitialized: true
+    }))
+    //app.use(passport.initialize())
+    //app.use(passport.session())
+    app.use(flash())
+//Midleware das sessões
+    app.use((req,res,next)=>{
+        res.locals.success_msg = req.flash("success_msg")
+        res.locals.error_msg = req.flash("error_msg")
+        //res.locals.error = req.flash("error")
+        //res.locals.user = req.user || null;
+        next()
+    })
     //Body Parser
     app.use(bodyParser.urlencoded({extended: true}))
     app.use(bodyParser.json())
