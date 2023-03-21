@@ -22,6 +22,10 @@ const Pdv = new Schema({
     date: {
         type: Date,
         default: Date.now()
+    },
+    status:{
+        type: String,
+        default: "disponivel"
     }    
 })
 

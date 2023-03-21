@@ -1,0 +1,96 @@
+{{#each error}}
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
+{{/each}}
+
+<div class="card mt-4">
+    <div class="card-body">
+        <form action="/admin/users/add_user" method="post">
+            <table class="table table-bordered">
+                <p style="font-weight: bold;" >Cadastrar novo Usuario</p>
+                <thead class="bg-info">
+                    <tr>                            
+                        <th scope="col">Adm</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Login</th>
+                        <th scope="col">Setor</th>
+                        <th scope="col">Senha</th>
+                        <th scope="col">Confirma Senha</th>                                
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>                                
+                        <td>
+                            <input type="checkbox" name="eAdmin" value="true">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="nome">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="login">
+                        </td>
+                        <td>
+                            <select class="form-control" name="setor" >
+                                <option value="selecione">-----selecione-----</option>
+                                <option value="Trafego">Trafego</option>
+                                <option value="Estatistica">Estatistica</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="Controle Operacional">Controle Operacional</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input class="form-control" type="password" name="senha1">
+                        </td>
+                        <td>
+                            <input class="form-control" type="password" name="senha2">
+                        </td>
+                    </tr>                                    
+                </tbody>
+            </table>
+            <button class="btn btn-success" type="submit">Salvar</button>
+        </form>    
+    </div>
+</div>
+
+<div class="card mt-4">    
+    <div class="card-body">        
+        <form action="/admin/users/dell_user" method="post">
+        <table class="table table-bordered">
+                        <p style="font-weight: bold;">Usuarios Cadastrados</p>
+                        <thead class="bg-primary">
+                            <tr>                            
+                                <th scope="col">-</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Usuario</th>
+                                <th scope="col">Setor</th>
+                                <th scope="col">Admin</th>
+                                <th scope="col">Alt. Senha</th>                                                                
+                            </tr>
+                        </thead>
+                        {{#each users}}
+                        <tbody>
+                            <tr>
+                                <th scope="row"><input type="checkbox" name="ident" value="{{_id}}"></th>
+                                <td>{{nome}}</td>
+                                <td>{{login}}</td>
+                                <td>{{setor}}</td>
+                                <td><input type="checkbox" checked="{{eAdmin}}"></td>
+                                <td><a href="">♻</a></td>
+                            </tr>                                    
+                        </tbody>                                        
+                        {{else}}            
+                            <tbody>
+                            <tr>
+                                <th scope="row">---</th>
+                                <td>---</td>
+                                <td>---</td>
+                                <td>---</td>
+                                <td>---</td>
+                            </tr>                                    
+                        </tbody>  
+                        {{/each}}
+                    </table>    
+            <button class="btn btn-danger" type="submit">Excluir</button> 
+        </form>
+    </div>
+</div>

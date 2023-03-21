@@ -1,0 +1,91 @@
+<div class="mt-4"><p style="font-weight: bolder;">Informações para Saida de PDV</p></div>
+
+<form action="/controle/saida_pdv/saida" method="post">
+<div class="container">  
+    
+    <input type="hidden" name="pdvUtil" value="{{pdvs._id}}">
+    
+    <div class="row">        
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                   PDV Número: {{pdvs.nControle}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                   <label for="empresa">Empresa:</label>
+                        <select class="form-control" name="empresa">
+                            <option value="selecione">-----Selecione-----</option>
+                            <option value="Viação Regional">Viação Regional</option>
+                            <option value="Viação Jaua">Viação Jaua</option>
+                        </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">            
+                    <label for="veiculo">Veiculo:</label>
+                    <input class="form-control" type="number" name="veiculo" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">            
+                    <label for="matricula">Matricula:</label>
+                    <input class="form-control" type="number" name="matricula" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+        <div class="card">
+                <div class="card-body">            
+                    <label for="destino">Destino:</label>
+                            <select name="destino" class="custom-select" required>
+                                <option value="selecione">-----selecione-----</option>
+                                <option value="ALAGOINHAS-BA">ALAGOINHAS-BA</option>
+                                <option value="AMARGOSA-BA">AMARGOSA-BA</option>
+                                <option value="ANTAS-BA">ANTAS-BA</option>
+                                <option value="ARACI-BA">ARACI-BA</option>
+                                <option value="CAMAÇARI-BA">CAMAÇARI-BA</option>
+                                <option value="CANDEIAS-BA">CANDEIAS-BA</option>
+                                <option value="CICERO DANTAS-BA">CICERO DANTAS-BA</option>
+                                <option value="CIPÓ-BA">CIPÓ-BA</option>
+                                <option value="CONCEIÇÃO DA FEIRA-BA">CONCEIÇÃO DA FEIRA-BA</option>
+                                <option value="CRUZ DAS ALMAS-BA">CRUZ DAS ALMAS-BA</option>
+                                <option value="FEIRA DE SANTANA-BA">FEIRA DE SANTANA-BA</option>
+                                <option value="INHAMBUPE-BA">INHAMBUPE-BA</option>
+                                <option value="JEREMOABO-BA">JEREMOABO-BA</option>
+                                <option value="JORRO-BA">JORRO-BA</option>
+                                <option value="MADRE DE DEUS-BA">MADRE DE DEUS-BA</option>
+                                <option value="NOVA SOURE-BA">NOVA SOURE-BA</option>
+                                <option value="OLINDINA-BA">OLINDINA-BA</option>
+                                <option value="PAULO AFONSO-BA">PAULO AFONSO-BA</option>
+                                <option value="RIBEIRA DO POMBAL-BA">RIBEIRA DO POMBAL-BA</option>
+                                <option value="SALVADOR-BA">SALVADOR-BA</option>
+                                <option value="SANTO ANTONIO DE JESUS-BA">SANTO ANTONIO DE JESUS-BA</option>
+                                <option value="SÃO GONÇALO DOS CAMPOS-BA">SÃO GONÇALO DOS CAMPOS-BA</option>
+                                <option value="SERRINHA-BA">SERRINHA-BA</option>
+                                <option value="SIMÕES FILHO-BA">SIMÕES FILHO-BA</option>
+                                <option value="TEODORO SAMPAIO-BA">TEODORO SAMPAIO-BA</option>
+                                <option value="TEOFILANDIA-BA">TEOFILANDIA-BA</option>
+                                <option value="TERRA NOVA-BA">TERRA NOVA-BA</option>
+                                <option value="TUCANO-BA">TUCANO-BA</option>                                
+                            </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success mt-4">Enviar Saida</button>
+</div>
+</form>

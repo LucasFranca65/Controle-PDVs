@@ -1,3 +1,8 @@
+{{#each error}}
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
+{{/each}}
+
 <div class="card mt-4">
     <div class="card-body">
         <form action="/admin/pdvs/add_pdv" method="post">
@@ -23,12 +28,13 @@
                                 <option value="Viação Jaua">Viação Jaua</option>
                             </select>
                         </td>
+                        
                         <td>
                             <select class="form-control" name="modelo">
                                 <option value="selecione">-----Selecione-----</option>
-                                <option value="Viação Regional">Clielo Lio V1 - Azul</option>
-                                <option value="Viação Jaua">Cielo Lio V2 - Preta</option>
-                                <option value="Viação Jaua">Bematech Smart POE</option>
+                                <option value="Clielo Lio V1 - Azul">Clielo Lio V1 - Azul</option>
+                                <option value="Cielo Lio V2 - Preta">Cielo Lio V2 - Preta</option>
+                                <option value="Bematech Smart POE">Bematech Smart POE</option>
                             </select>
                         </td>
                         <td><input class="form-control" type="number" name="nSerie"></td>
@@ -40,12 +46,12 @@
     </div>
 </div>
 
-<div class="card mt-4">
-    <div class="card-body">
-        <form action="" method="post">
+<div class="card mt-4">    
+    <div class="card-body">        
+        <form action="/admin/pdvs/dell_pdv" method="post">
         <table class="table table-bordered">
                         <p>Terminais Cadastraddos</p>
-                        <thead>
+                        <thead class="bg-info">
                             <tr>
                                 <th scope="col">-</th>    
                                 <th scope="col">Nº Controle</th>
@@ -54,18 +60,21 @@
                                 <th scope="col">Nº Serie</th>
                             </tr>
                         </thead>
+                        {{#each pdvs}}
                         <tbody>
                             <tr>
-                                <th scope="row"><input type="checkbox" name="" id=""></th>
-                                <td>45</td>
-                                <td>Regional</td>
-                                <td>Clielo Lio V2</td>
-                                <td>Disponivel</td>
+                                <th scope="row"><input type="checkbox" name="ident" value="{{_id}}"></th>
+                                <td>{{nControle}}</td>
+                                <td>{{empresa}}</td>
+                                <td>{{modelo}}</td>
+                                <td>{{nSerie}}</td>
                             </tr>                                    
-                        </tbody>
-            </table>
+                        </tbody>                                        
+                        {{else}}            
+                            Não foram econtrados pdvs Cadastrados
+                        {{/each}}
+                    </table>    
             <button class="btn btn-danger" type="submit">Excluir</button>
         </form>
-
     </div>
 </div>

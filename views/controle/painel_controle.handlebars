@@ -4,10 +4,10 @@
         <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Monitoramento</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Saida de PDV</button>
+        <button class="nav-link btn-warning" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Saida de PDV</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-contact-tab" data-toggle="pill" data-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Retorno de PDV</button>
+        <button style="color: black;" class="nav-link btn-success" id="pills-contact-tab" data-toggle="pill" data-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Retorno de PDV</button>
     </li>
     </ul>
 
@@ -16,13 +16,16 @@
             <div class="card mt-2">
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <thead>
+                        <p style="font-weight: bold;">Movimentação atual dos terminais</p>
+                        <thead class="bg-info"> 
                             <tr>
-                                <th scope="col">-</th>    
-                                    <th scope="col">Nº</th>
-                                    <th scope="col">Empresa</th>
-                                    <th scope="col">Modelo</th>
-                                    <th scope="col">Status</th>
+                                    
+                                <th scope="col">Nº</th>
+                                <th scope="col">Empresa</th>
+                                <th scope="col">Utilizador</th>
+                                <th scope="col">Linha</th>
+                                <th scope="col">Veiculo</th>
+                                <th scope="col">Hora saida</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,30 +40,35 @@
                     </table>
                 </div>
         </div>
-            </div>
+        </div>
+
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div class="card mt-2">
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <p>Escolha um terminal para lançar saida</p>
+                        <p style="font-weight: bold;">Escolha um terminal para lançar saida</p>
                         <thead>
-                            <tr>
-                                <th scope="col">-</th>    
-                                    <th scope="col">Nº</th>
-                                    <th scope="col">Empresa</th>
-                                    <th scope="col">Modelo</th>
-                                    <th scope="col">Status</th>
+                            <tr class="bg-warning">                                    
+                                <th scope="col">Nº</th>
+                                <th scope="col">Empresa</th>
+                                <th scope="col">Modelo</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">-</th>
                             </tr>
                         </thead>
+                        {{#each pdvs}}
                         <tbody>
                             <tr>
-                                <th scope="row"><input type="checkbox" name="" id=""></th>
-                                <td>45</td>
-                                <td>Regional</td>
-                                <td>Clielo Lio V2</td>
-                                <td>Disponivel</td>
+                                <th scope="row">{{nControle}}</th>
+                                <td>{{empresa}}</td>
+                                <td>{{modelo}}</td>
+                                <td>{{status}}</td>                                
+                                <td><a href="/controle/saida_pdv/{{_id}}"><button class="btn btn-warning">Saida</button></a></td>
                             </tr>                                    
                         </tbody>
+                        {{else}}
+                        {{/each}}
+
                     </table>
                 </div>
             </div>
@@ -70,25 +78,28 @@
             <div class="card mt-2">
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <p>Escolha um terminal para lançar Retorno</p>
-                        <thead>
+                        <p style="font-weight: bold;">Escolha um terminal para lançar Retorno</p>
+                        <thead class="bg-success"> 
                             <tr>
-                                <th scope="col">-</th>    
-                                    <th scope="col">Nº</th>
-                                    <th scope="col">Empresa</th>
-                                    <th scope="col">Modelo</th>
-                                    <th scope="col">Status</th>
+                                <th scope="col">Nº</th>
+                                <th scope="col">Empresa</th>
+                                <th scope="col">Modelo</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">-</th>
                             </tr>
                         </thead>
+                        {{#each pdvs}}
                         <tbody>
                             <tr>
-                                <th scope="row"><input type="checkbox" name="" id=""></th>
-                                <td>45</td>
-                                <td>Regional</td>
-                                <td>Clielo Lio V2</td>
-                                <td>Disponivel</td>
+                                <th scope="row">{{nControle}}</th>
+                                <td>{{empresa}}</td>
+                                <td>{{modelo}}</td>
+                                <td>{{status}}</td>                                
+                                <td><a href="/controle/saida_pdv"><button style="color: black;" class="btn btn-success">Retorno</button></a></td>
                             </tr>                                    
                         </tbody>
+                        {{else}}
+                        {{/each}}
                     </table>
                 </div>
             </div>
