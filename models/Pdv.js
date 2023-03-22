@@ -25,7 +25,7 @@ const Pdv = new Schema({
     },
     status:{
         type: String,
-        default: "disponivel"
+        default: "DISPONIVEL"
     }    
 })
 

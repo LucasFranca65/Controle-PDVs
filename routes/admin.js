@@ -9,12 +9,12 @@ require('../models/Pdv')
 const Pdv = mongoose.model('pdvs')
 require('../models/User')
 const User = mongoose.model('users')
-
+require('../models/Moviment')
+const Moviment = mongoose.model('moviments')
 //Conjunto de rotas
 
-
 router.get('/',(req,res)=>{
-    res.send("Painel Inicial dos administradores")
+    res.redirect('/controle')
 })
 
 //Rotas de Administração dos PDVs
@@ -52,8 +52,7 @@ router.get('/',(req,res)=>{
             
         }else{
             Pdv.findOne({$or:[{nControle: req.body.nControle},{nSerie: req.body.nSerie}]}).then((pdvs)=>{
-                console.log(pdvs)
-                console.log(req.body.nControle)
+
                 if(pdvs){
                     req.flash('error_msg',"Já existe um PDV Cadastrado com esses parametros")
                     res.redirect('/admin/pdvs')   
@@ -243,6 +242,42 @@ router.get('/',(req,res)=>{
                        res.redirect('/admin/users')
                    })
            }
+    })
+//Rotas administrativas dos movimentos
+    //Rota que exclui movimento
+    router.post('/movimento/dell_movimento',(req,res)=>{
+        
+        if(req.body.ident == undefined){
+            req.flash('error_msg',"Nenhum Usuario Selecionado para exclusão")
+            res.redirect('/controle')
+        }else{       
+            var query = {"_id":{$in:req.body.ident}}       
+                
+                Moviment.find(query).then((movimento)=>{
+                    var i =0
+                    while(i < movimento.length){                       
+                      
+                        Pdv.findOne({nControle: movimento[i].nControle}).then((pdv)=>{
+                            pdv.status = "DISPONIVEL"
+                            pdv.save().then(()=>{
+                                req.flash('success_msg',"PDV "+pdv.nControle+" Disponibilizado para uso")
+                            }).catch((err)=>{
+                                req.flash('error_msg',"Erro ao disponibilizar PDV do movimento a ser excluido")
+                                res.redirect('/controle')
+                            })
+                        }) 
+                            i++
+                    } 
+                        
+                    Moviment.deleteMany(query).then(()=>{                    
+                        req.flash('success_msg',"Movimentos selecionados Excluidos com sucesso")
+                        res.redirect('/controle')
+                    }).catch((err)=>{
+                        req.flash('error_msg',"Não foi encontrados mocimentos com os parametros informados")
+                        res.redirect('/controle')
+                    })
+                })
+            }
     })
 
 module.exports = router

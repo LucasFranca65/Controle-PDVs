@@ -12,15 +12,16 @@
     </ul>
 
     <div class="tab-content" id="pills-tabContent">
+        
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             <div class="card mt-2">
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <p style="font-weight: bold;">Movimentação atual dos terminais</p>
+                        <p style="font-weight: bold;">PDVs Aguardando Retorno</p>
                         <thead class="bg-info"> 
                             <tr>
                                     
-                                <th scope="col">Nº</th>
+                                <th scope="col">Nº PDV</th>
                                 <th scope="col">Empresa</th>
                                 <th scope="col">Utilizador</th>
                                 <th scope="col">Linha</th>
@@ -28,15 +29,19 @@
                                 <th scope="col">Hora saida</th>
                             </tr>
                         </thead>
+                        {{#each movimentos}}
                         <tbody>
                             <tr>
-                                <th scope="row"><input type="checkbox" name="" id=""></th>
-                                <td>45</td>
-                                <td>Regional</td>
-                                <td>Clielo Lio V2</td>
-                                <td>Disponivel</td>
+                                <th scope="row">{{nControle}}</th>
+                                <td>{{empresa}}</td>
+                                <td>{{matricula}}</td>
+                                <td>{{destino}}</td>
+                                <td>{{veiculo}}</td>
+                                <td>{{data_exib}}</td>
                             </tr>                                    
                         </tbody>
+                        {{else}}
+                        {{/each}}
                     </table>
                 </div>
         </div>
@@ -46,17 +51,17 @@
             <div class="card mt-2">
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <p style="font-weight: bold;">Escolha um terminal para lançar saida</p>
+                        <p style="font-weight: bold;">Escolha um PDV para lançar saida</p>
                         <thead>
                             <tr class="bg-warning">                                    
-                                <th scope="col">Nº</th>
+                                <th scope="col">Nº PDV</th>
                                 <th scope="col">Empresa</th>
                                 <th scope="col">Modelo</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">-</th>
                             </tr>
                         </thead>
-                        {{#each pdvs}}
+                        {{#each pdvsDisp}}
                         <tbody>
                             <tr>
                                 <th scope="row">{{nControle}}</th>
@@ -78,24 +83,24 @@
             <div class="card mt-2">
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <p style="font-weight: bold;">Escolha um terminal para lançar Retorno</p>
+                        <p style="font-weight: bold;">Escolha um PDV para lançar Retorno</p>
                         <thead class="bg-success"> 
                             <tr>
-                                <th scope="col">Nº</th>
+                                <th scope="col">Nº PDV</th>
                                 <th scope="col">Empresa</th>
                                 <th scope="col">Modelo</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">-</th>
                             </tr>
                         </thead>
-                        {{#each pdvs}}
+                        {{#each pdvsInd}}
                         <tbody>
                             <tr>
                                 <th scope="row">{{nControle}}</th>
                                 <td>{{empresa}}</td>
                                 <td>{{modelo}}</td>
                                 <td>{{status}}</td>                                
-                                <td><a href="/controle/saida_pdv"><button style="color: black;" class="btn btn-success">Retorno</button></a></td>
+                                <td><a href="/controle/retorno_pdv/{{_id}}"><button style="color: black;" class="btn btn-success">Retorno</button></a></td>
                             </tr>                                    
                         </tbody>
                         {{else}}

@@ -1,0 +1,59 @@
+<div class="mt-4"><p style="font-weight: bolder;">Confirmar Retorno de PDV</p></div>
+
+<form action="/controle/retorno_pdv/retornar" method="post">
+<div class="container">  
+    
+    <input type="hidden" name="pdvUtil" value="{{pdv._id}}">
+    <input type="hidden" name="movUtil" value="{{movimento._id}}">
+    
+    <div class="row">        
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                   PDV Número: {{pdv.nControle}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                   <label>Empresa:</label>
+                        {{movimento.empresa}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">            
+                    <label>Veiculo:</label>
+                    {{movimento.veiculo}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">            
+                    <label>Matricula:</label>
+                   {{movimento.matricula}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm">
+        <div class="card">
+                <div class="card-body">            
+                    <label>Destino:</label>
+                        {{movimento.destino}}                                 
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success mt-4">Confirmar Retorno</button>
+</div>
+</form>
