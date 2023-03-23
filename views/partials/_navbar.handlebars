@@ -1,3 +1,4 @@
+{{#if user}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="/controle">Painel Principal</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,9 +22,22 @@
               <a class="dropdown-item" href="/consulta/por_destino">Por Destino</a>
           </div>          
       </li>
+      <li class="nav-item dropdown">
+        <div class="dropdown">
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                {{user.nome}}
+                <input type="hidden" name="id_user" value="{{user._id}}">
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/users/reset_pass">Alterar Senha</a>
+            </div>
+        </div>
+      </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Usuario</a>
+        <a class="nav-link" href="/users/logout">Logout</a>
       </li>      
     </ul>
   </div>
 </nav>
+{{else}}
+{{/if}}

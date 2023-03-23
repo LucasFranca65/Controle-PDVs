@@ -4,6 +4,7 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const {eAdmin} = require('../helpers/eAdmin')
 //Mongoose Models
 require('../models/Pdv')
 const Pdv = mongoose.model('pdvs')
@@ -19,7 +20,7 @@ router.get('/',(req,res)=>{
 
 //Rotas de Administração dos PDVs
     //Rota Principal dos PDVs
-    router.get('/pdvs',(req,res)=>{
+    router.get('/pdvs',eAdmin,(req,res)=>{
 
         Pdv.find().lean().then((pdvs)=>{
             res.render('admin/adm_pdvs',{pdvs: pdvs})
@@ -29,7 +30,7 @@ router.get('/',(req,res)=>{
         
     })
     //Rota que adiciona pdv
-    router.post('/pdvs/add_pdv',(req,res)=>{
+    router.post('/pdvs/add_pdv',eAdmin,(req,res)=>{
         var error = []
         if(!req.body.nControle || typeof req.body.nControle == undefined || req.body.nControle == null){
             error.push({texto:"Número de Controle Invalido"})
@@ -83,7 +84,7 @@ router.get('/',(req,res)=>{
        
     })
     //Rota que exclui pdvs
-    router.post('/pdvs/dell_pdv',(req,res)=>{
+    router.post('/pdvs/dell_pdv',eAdmin,(req,res)=>{
         if(req.body.ident == undefined){
             req.flash('error_msg',"Nenhum PDV Selecionado para exclusão")
             res.redirect('/admin/pdvs')
@@ -101,13 +102,13 @@ router.get('/',(req,res)=>{
 
 //Rotas de Administração de Usuarios
     //Rota Principal
-    router.get('/users',(req,res)=>{
+    router.get('/users',eAdmin,(req,res)=>{
         User.find().then((users)=>{
             res.render('admin/adm_users',{users})
         })        
     })
 
-    router.post('/users/add_user',(req,res)=>{
+    router.post('/users/add_user',eAdmin,(req,res)=>{
 
         var error = []
         //  Validação de usuario
@@ -228,7 +229,7 @@ router.get('/',(req,res)=>{
 
     })
 
-    router.post('/users/dell_user',(req,res)=>{
+    router.post('/users/dell_user',eAdmin,(req,res)=>{
         if(req.body.ident == undefined){
             req.flash('error_msg',"Nenhum Usuario Selecionado para exclusão")
             res.redirect('/admin/pdvs')
@@ -245,7 +246,7 @@ router.get('/',(req,res)=>{
     })
 //Rotas administrativas dos movimentos
     //Rota que exclui movimento
-    router.post('/movimento/dell_movimento',(req,res)=>{
+    router.post('/movimento/dell_movimento',eAdmin,(req,res)=>{
         
         if(req.body.ident == undefined){
             req.flash('error_msg',"Nenhum Usuario Selecionado para exclusão")

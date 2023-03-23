@@ -1,6 +1,6 @@
 <h5 class="mt-4">Movimentos por Periodo</h5>
 <hr>
-<form action="/consulta/por_periodo/pesquisar" method="get" class="container mt-4">    
+<form action="/consulta/por_periodo/pesquisar" method="post" class="container mt-4">    
 
    <div class="form-group">        
             <div class="row">
@@ -8,7 +8,7 @@
                     <div class="card" style="width: flex;">  
                         <div class="card-body">
                             <label for="dateMin">Data Inicial: </label>
-                            <input type="date" class="form-control" name="dateMin" value="{{dateMin}}">    
+                            <input type="date" class="form-control" name="dateMin">    
                         </div>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                     <div class="card" style="width: flex;">  
                         <div class="card-body">
                             <label for="dateMax">Data Final: </label>
-                            <input type="date" class="form-control" name="dateMax" value="{{dateMAx}}">    
+                            <input type="date" class="form-control" name="dateMax">    
                         </div>
                     </div>
                 </div>                                

@@ -1,0 +1,103 @@
+<h5 class="mt-4">Movimentos por Destino</h5>
+<hr>
+<form action="/consulta/por_destino/pesquisar" method="post" class="container mt-4">    
+
+   <div class="form-group">        
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card" style="width: flex;">  
+                        <div class="card-body">
+                            <label for="dateMin">Data Inicial: </label>
+                            <input type="date" class="form-control" name="dateMin" value="{{dateMin}}">    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card" style="width: flex;">  
+                        <div class="card-body">
+                            <label for="dateMax">Data Final: </label>
+                            <input type="date" class="form-control" name="dateMax" value="{{dateMAx}}">    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card" style="width: flex;">  
+                        <div class="card-body">
+                            <label for="destino">Destino:</label>
+                            <select name="destino" class="custom-select" required>
+                                <option value="selecione">-----selecione-----</option>
+                                <option value="ALAGOINHAS-BA">ALAGOINHAS-BA</option>
+                                <option value="AMARGOSA-BA">AMARGOSA-BA</option>
+                                <option value="ANTAS-BA">ANTAS-BA</option>
+                                <option value="ARACI-BA">ARACI-BA</option>
+                                <option value="CAMAÇARI-BA">CAMAÇARI-BA</option>
+                                <option value="CANDEIAS-BA">CANDEIAS-BA</option>
+                                <option value="CICERO DANTAS-BA">CICERO DANTAS-BA</option>
+                                <option value="CIPÓ-BA">CIPÓ-BA</option>
+                                <option value="CONCEIÇÃO DA FEIRA-BA">CONCEIÇÃO DA FEIRA-BA</option>
+                                <option value="CRUZ DAS ALMAS-BA">CRUZ DAS ALMAS-BA</option>
+                                <option value="FEIRA DE SANTANA-BA">FEIRA DE SANTANA-BA</option>
+                                <option value="INHAMBUPE-BA">INHAMBUPE-BA</option>
+                                <option value="JEREMOABO-BA">JEREMOABO-BA</option>
+                                <option value="JORRO-BA">JORRO-BA</option>
+                                <option value="MADRE DE DEUS-BA">MADRE DE DEUS-BA</option>
+                                <option value="NOVA SOURE-BA">NOVA SOURE-BA</option>
+                                <option value="OLINDINA-BA">OLINDINA-BA</option>
+                                <option value="PAULO AFONSO-BA">PAULO AFONSO-BA</option>
+                                <option value="RIBEIRA DO POMBAL-BA">RIBEIRA DO POMBAL-BA</option>
+                                <option value="SALVADOR-BA">SALVADOR-BA</option>
+                                <option value="SANTO ANTONIO DE JESUS-BA">SANTO ANTONIO DE JESUS-BA</option>
+                                <option value="SÃO GONÇALO DOS CAMPOS-BA">SÃO GONÇALO DOS CAMPOS-BA</option>
+                                <option value="SERRINHA-BA">SERRINHA-BA</option>
+                                <option value="SIMÕES FILHO-BA">SIMÕES FILHO-BA</option>
+                                <option value="TEODORO SAMPAIO-BA">TEODORO SAMPAIO-BA</option>
+                                <option value="TEOFILANDIA-BA">TEOFILANDIA-BA</option>
+                                <option value="TERRA NOVA-BA">TERRA NOVA-BA</option>
+                                <option value="TUCANO-BA">TUCANO-BA</option>                                
+                            </select>  
+                        </div>
+                    </div>
+                </div>                                
+            </div>        
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-success">Pesquisar</button>
+</form>
+<form action="/admin/movimento/dell_movimento" method="get">
+<div class="card mt-2">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <p style="font-weight: bold;">Resultado</p>
+                        <thead class="bg-info"> 
+                            <tr>
+                                <th scope="col"></th>    
+                                <th scope="col">PDV</th>
+                                <th scope="col">Empresa</th>
+                                <th scope="col">Utilizador</th>
+                                <th scope="col">Linha</th>
+                                <th scope="col">Veiculo</th>
+                                <th scope="col">Saida</th>
+                                <th scope="col">Retorno</th>
+                            </tr>
+                        </thead>
+                        {{#each movimentos}}
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="ident" value="{{_id}}"></td>
+                                <th scope="row">{{nControle}}</th>
+                                <td>{{empresa}}</td>
+                                <td>{{matricula}}</td>
+                                <td>{{destino}}</td>
+                                <td>{{veiculo}}</td>
+                                <td>{{data_saida}}</td>
+                                <td>{{data_retorno}}</td>
+                            </tr>                                    
+                        </tbody>
+                        {{else}}
+                        {{/each}}
+                    </table>
+                    <button class="btn btn-danger">Excluir Selecionados</button>
+                </div>
+</form>

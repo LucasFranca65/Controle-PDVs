@@ -1,0 +1,73 @@
+<h5 class="mt-4">Movimentos por Veiculo</h5>
+<hr>
+<form action="/consulta/por_veiculo/pesquisar" method="post" class="container mt-4">    
+
+   <div class="form-group">        
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card" style="width: flex;">  
+                        <div class="card-body">
+                            <label for="dateMin">Data Inicial: </label>
+                            <input type="date" class="form-control" name="dateMin" value="{{dateMin}}">    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card" style="width: flex;">  
+                        <div class="card-body">
+                            <label for="dateMax">Data Final: </label>
+                            <input type="date" class="form-control" name="dateMax" value="{{dateMAx}}">    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card" style="width: flex;">  
+                        <div class="card-body">
+                            <label for="veiculo">Veiculo: </label>
+                            <input  class="form-control" type="number" name="veiculo" required>   
+                        </div>
+                    </div>
+                </div>                                
+            </div>        
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-success">Pesquisar</button>
+</form>
+<form action="/admin/movimento/dell_movimento" method="get">
+<div class="card mt-2">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <p style="font-weight: bold;">Resultado</p>
+                        <thead class="bg-info"> 
+                            <tr>
+                                <th scope="col"></th>    
+                                <th scope="col">PDV</th>
+                                <th scope="col">Empresa</th>
+                                <th scope="col">Utilizador</th>
+                                <th scope="col">Linha</th>
+                                <th scope="col">Veiculo</th>
+                                <th scope="col">Saida</th>
+                                <th scope="col">Retorno</th>
+                            </tr>
+                        </thead>
+                        {{#each movimentos}}
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="ident" value="{{_id}}"></td>
+                                <th scope="row">{{nControle}}</th>
+                                <td>{{empresa}}</td>
+                                <td>{{matricula}}</td>
+                                <td>{{destino}}</td>
+                                <td>{{veiculo}}</td>
+                                <td>{{data_saida}}</td>
+                                <td>{{data_retorno}}</td>
+                            </tr>                                    
+                        </tbody>
+                        {{else}}
+                        {{/each}}
+                    </table>
+                    <button class="btn btn-danger">Excluir Selecionados</button>
+                </div>
+</form>
