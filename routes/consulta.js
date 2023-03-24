@@ -78,7 +78,7 @@ router.post('/por_veiculo/pesquisar',lOgado,(req,res)=>{
     var dateMin = moment(req.body.dateMin).format("YYYY-MM-DDT00:00:00.SSSZ")
     if(dateMax < dateMin){
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
-        res.redirect('consulta/por_veiculo')
+        res.redirect('/consulta/por_veiculo')
     }else{
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}, veiculo: req.body.veiculo}).then((movimentos)=>{
             var i=0
@@ -104,7 +104,7 @@ router.post('/por_pdv/pesquisar',lOgado,(req,res)=>{
     var dateMin = moment(req.body.dateMin).format("YYYY-MM-DDT00:00:00.SSSZ")
     if(dateMax < dateMin){
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
-        res.redirect('consulta/por_pdv')
+        res.redirect('/consulta/por_pdv')
     }else{
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}, nControle: req.body.nControle}).then((movimentos)=>{
             var i=0
@@ -130,7 +130,7 @@ router.post('/por_destino/pesquisar',lOgado,(req,res)=>{
     var dateMin = moment(req.body.dateMin).format("YYYY-MM-DDT00:00:00.SSSZ")
     if(dateMax < dateMin){
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
-        res.redirect('consulta/por_destino')
+        res.redirect('/consulta/por_destino')
     }else{
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}, destino: req.body.destino}).then((movimentos)=>{
             var i=0

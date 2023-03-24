@@ -138,6 +138,10 @@
         res.render('404')
     })
 
+    app.use((req,res,next)=>{
+        req.flash('error_msg',"Algo deu errado, essa rota não existe")
+        res.redirect('/error')
+    })
 
 //Outros
 app.listen(PORT,()=>{
