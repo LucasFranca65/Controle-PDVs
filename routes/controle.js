@@ -37,7 +37,6 @@ router.get('/',lOgado,(req,res)=>{
     })
     
 })
-
 //Rota que seleciona pdv para dar retorno
 router.get('/retorno_pdv/:id',lOgado,(req,res)=>{
     //console.log(req.params.id)
