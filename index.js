@@ -10,7 +10,7 @@
     const bcrypt = require('bcryptjs')
     const passport = require('passport')
     //Variaveis Globais
-    const PORT = 8081
+    const PORT = 1001
     const app = express()
 //Grupos de Rotas
     const admin = require('./routes/admin')

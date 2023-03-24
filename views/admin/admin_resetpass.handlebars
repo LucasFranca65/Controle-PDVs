@@ -1,0 +1,20 @@
+ {{#each error}}
+ <div class=" alert alert-danger">{{texto}}</div>
+ {{else}}
+ {{/each}}
+<div class="card mt-4">
+    <div class="card-body font-weight-bold ">
+        <form action="/users/reset_pass/reset" method="post">
+            <p>Alterar a senha do usuario: {{usuario.nome}}</p>
+            <input type="hidden" name="user_id" value="{{usuario._id}}">            
+            <label for="senha1">Nova Senha:</label>
+            <input type="password" name="senha1" class="form-control" placeholder="*************">
+            <label for="senha2">Confirmar Nova Senha:</label>
+            <input type="password" name="senha2" class="form-control" placeholder="*************">
+            <hr>
+            <button class="btn btn-success">Reset</button>
+        </form>
+        <hr>
+        <a href="/admin/users">Cancelar</a>
+    </div>
+</div>

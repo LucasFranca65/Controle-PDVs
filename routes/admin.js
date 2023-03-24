@@ -5,6 +5,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const {eAdmin} = require('../helpers/eAdmin')
+const {lOgado} = require('../helpers/eAdmin')
 //Mongoose Models
 require('../models/Pdv')
 const Pdv = mongoose.model('pdvs')
@@ -20,7 +21,7 @@ router.get('/',(req,res)=>{
 
 //Rotas de Administração dos PDVs
     //Rota Principal dos PDVs
-    router.get('/pdvs',eAdmin,(req,res)=>{
+    router.get('/pdvs',lOgado,(req,res)=>{
 
         Pdv.find().lean().then((pdvs)=>{
             res.render('admin/adm_pdvs',{pdvs: pdvs})
@@ -30,7 +31,7 @@ router.get('/',(req,res)=>{
         
     })
     //Rota que adiciona pdv
-    router.post('/pdvs/add_pdv',eAdmin,(req,res)=>{
+    router.post('/pdvs/add_pdv',lOgado,(req,res)=>{
         var error = []
         if(!req.body.nControle || typeof req.body.nControle == undefined || req.body.nControle == null){
             error.push({texto:"Número de Controle Invalido"})
@@ -244,6 +245,15 @@ router.get('/',(req,res)=>{
                    })
            }
     })
+    router.get('/users/reset_pass/admin/:id',eAdmin,(req,res)=>{
+        User.findOne({_id: req.params.id}).then((usuario)=>{
+            res.render('admin/admin_resetpass',{usuario})
+        }).catch((err)=>{
+            req.flash('error_msg',"Não foi encontrado usuario com esses parametros")
+            res.redirect('/admin/users')
+        })
+    })
+
 //Rotas administrativas dos movimentos
     //Rota que exclui movimento
     router.post('/movimento/dell_movimento',eAdmin,(req,res)=>{
