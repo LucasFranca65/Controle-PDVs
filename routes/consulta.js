@@ -28,15 +28,21 @@ router.post('/por_periodo/pesquisar',lOgado,(req,res)=>{
         res.redirect('/consulta/por_periodo')
     }else{
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}}).then((movimentos)=>{
-            var i=0
+
+            if(movimentos.length == 0){
+                req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
+                res.redirect('/consulta/por_periodo')
+            }else{
+                var i=0
             while(i < movimentos.length){                   
                 movimentos[i]["data_saida"] = moment(movimentos[i].saida).format('DD/MM/YYYY HH:mm')
                 movimentos[i]["data_retorno"] = moment(movimentos[i].retorno).format('DD/MM/YYYY HH:mm')
                 i++                      
             }
-            res.render('consulta/por_periodo',{movimentos})       
+            res.render('consulta/por_periodo',{movimentos}) 
+            }                  
         }).catch((erro)=>{
-            req.flash('error_msg',"Não foi encontrado PDV para o periodo Informado")
+            req.flash('error_msg',"Erro interno cpp0001")
             res.redirect('/consulta/por_periodo')
         })
     }
@@ -55,20 +61,26 @@ router.post('/por_matricula/pesquisar',lOgado,(req,res)=>{
         res.redirect('/consulta/por_matricula')
     }else{
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}, matricula: req.body.matricula}).then((movimentos)=>{
-            var i=0
-            while(i < movimentos.length){                   
-                movimentos[i]["data_saida"] = moment(movimentos[i].saida).format('DD/MM/YYYY HH:mm')
-                movimentos[i]["data_retorno"] = moment(movimentos[i].retorno).format('DD/MM/YYYY HH:mm')
-                i++                      
-            }
-            res.render('consulta/por_matricula',{movimentos})       
+            if(movimentos.length == 0){
+                req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
+                res.redirect('/consulta/por_matricula')
+            }else{
+                var i=0
+                while(i < movimentos.length){                   
+                    movimentos[i]["data_saida"] = moment(movimentos[i].saida).format('DD/MM/YYYY HH:mm')
+                    movimentos[i]["data_retorno"] = moment(movimentos[i].retorno).format('DD/MM/YYYY HH:mm')
+                    i++                      
+                }
+                 res.render('consulta/por_matricula',{movimentos})
+            }         
+                   
         }).catch((err)=>{
             req.flash('error_msg',"Não foi encontrado movimentos para matricula "+req.body.matricula+" no periodo informado")
             res.redirect('/consulta/por_matricula')
         })
     }
 })
-
+//Por Veiculo 
 router.get('/por_veiculo',lOgado,(req,res)=>{
     res.render('consulta/por_veiculo')
 })
@@ -79,15 +91,23 @@ router.post('/por_veiculo/pesquisar',lOgado,(req,res)=>{
     if(dateMax < dateMin){
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
         res.redirect('/consulta/por_veiculo')
-    }else{
+    }else{       
+        
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}, veiculo: req.body.veiculo}).then((movimentos)=>{
-            var i=0
-            while(i < movimentos.length){                   
-                movimentos[i]["data_saida"] = moment(movimentos[i].saida).format('DD/MM/YYYY HH:mm')
-                movimentos[i]["data_retorno"] = moment(movimentos[i].retorno).format('DD/MM/YYYY HH:mm')
-                i++                      
-            }
-            res.render('consulta/por_veiculo',{movimentos})       
+            if(movimentos.length == 0){
+                req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
+                res.redirect('/consulta/por_veiculo')
+            }else{
+                var i=0
+                while(i < movimentos.length){                   
+                    movimentos[i]["data_saida"] = moment(movimentos[i].saida).format('DD/MM/YYYY HH:mm')
+                    movimentos[i]["data_retorno"] = moment(movimentos[i].retorno).format('DD/MM/YYYY HH:mm')
+                    i++                      
+                }
+            res.render('consulta/por_veiculo',{movimentos})
+
+            }           
+                   
         }).catch((err)=>{
             req.flash('error_msg',"Não foi encontrado movimentos para o veiculo "+req.body.veiculo+" no periodo informado")
             res.redirect('/consulta/por_matricula')
@@ -107,13 +127,19 @@ router.post('/por_pdv/pesquisar',lOgado,(req,res)=>{
         res.redirect('/consulta/por_pdv')
     }else{
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}, nControle: req.body.nControle}).then((movimentos)=>{
-            var i=0
+            if(movimentos.length == 0){
+                req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
+                res.redirect('/consulta/por_pdv')
+            }else{
+                var i=0
             while(i < movimentos.length){                   
                 movimentos[i]["data_saida"] = moment(movimentos[i].saida).format('DD/MM/YYYY HH:mm')
                 movimentos[i]["data_retorno"] = moment(movimentos[i].retorno).format('DD/MM/YYYY HH:mm')
                 i++                      
             }
-            res.render('consulta/por_veiculo',{movimentos})       
+            res.render('consulta/por_pdv',{movimentos})
+            }            
+                   
         }).catch((err)=>{
             req.flash('error_msg',"Não foi encontrado movimentos para o PDV Nº "+req.body.nControle+" no periodo informado")
             res.redirect('/consulta/por_pdv')
@@ -133,13 +159,19 @@ router.post('/por_destino/pesquisar',lOgado,(req,res)=>{
         res.redirect('/consulta/por_destino')
     }else{
         Moviment.find({date: {$gte: dateMin, $lt: dateMax}, destino: req.body.destino}).then((movimentos)=>{
-            var i=0
+            if(movimentos.length == 0){
+                req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
+                res.redirect('/consulta/por_destino')
+            }else{
+                var i=0
             while(i < movimentos.length){                   
                 movimentos[i]["data_saida"] = moment(movimentos[i].saida).format('DD/MM/YYYY HH:mm')
                 movimentos[i]["data_retorno"] = moment(movimentos[i].retorno).format('DD/MM/YYYY HH:mm')
                 i++                      
             }
-            res.render('consulta/por_destino',{movimentos})       
+            res.render('consulta/por_destino',{movimentos})
+            }            
+                   
         }).catch((err)=>{
             req.flash('error_msg',"Não foi encontrado movimentos com destino "+req.body.destino+" no periodo informado")
             res.redirect('/consulta/por_destino')
