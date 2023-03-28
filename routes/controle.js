@@ -71,6 +71,7 @@ router.post('/retorno_pdv/retornar',lOgado,(req,res)=>{
             movimento.save().then(()=>{
                 req.flash('success_',"Movimentação finalizada")
                 res.redirect('/controle')
+                console.log("Realizado retorno do PDV: " + movimento.nControle+ ", as "+ moment(new Date()).format('DD/MM/YYYY - HH:mm:ss'))
             }).catch((err)=>{
                 req.flash('error_msg',"Erro interno rpdv002")
                 res.redirect('/controle')
@@ -133,6 +134,7 @@ router.post('/saida_pdv/saida',lOgado,(req,res)=>{
                 res.redirect('/controle')
             })
             }
+            console.log("Realizada saida do PDV " + pdvs.nControle + ", as "+ moment(new Date()).format('DD/MM/YYYY - HH:mm:ss'))
         }).catch((err)=>{
             req.flash('error_msg',"Erro Interno0019"+err)
             res.redirect('/controle')

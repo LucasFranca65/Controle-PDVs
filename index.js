@@ -31,7 +31,12 @@
     app.use(session({
         secret: "keyjhglas@@dghajkhgsdfjdsf$#@%6jkbdsfhjbfgfgdf564864d8f6g4fdglnaSD@$#@$%¨)i4KYh**sjkdfhwoeu&&&hxweubx",
         resave: true,
-        saveUninitialized: true
+        saveUninitialized: true,
+        cookie: { 
+            // Session expires after 1 min of inactivity.
+            expires: 60000 
+                       
+        }    
     }))
     app.use(passport.initialize())
     app.use(passport.session())
