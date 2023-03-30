@@ -11,9 +11,9 @@ require('../models/Moviment')
 const Moviment = mongoose.model('moviments')
 
 router.get('/',lOgado,(req,res)=>{
-    Pdv.find({status: "DISPONIVEL"}).then((pdvsDisp)=>{      
-        Pdv.find({status: "EM USO"}).then((pdvsInd)=>{
-            Moviment.find({retorno: null}).then((movimentos)=>{
+    Pdv.find({status: "DISPONIVEL"}).sort({nControle: 1}).then((pdvsDisp)=>{      
+        Pdv.find({status: "EM USO"}).sort({nControle: 1}).then((pdvsInd)=>{
+            Moviment.find({retorno: null}).sort({saida: 1}).then((movimentos)=>{
 
                 var i=0
                 while(i < movimentos.length){
@@ -56,29 +56,37 @@ router.get('/retorno_pdv/:id',lOgado,(req,res)=>{
 //rota que realiza o retorno
 router.post('/retorno_pdv/retornar',lOgado,(req,res)=>{
    
-    Pdv.findOne({_id: req.body.pdvUtil}).then((pdv)=>{
-        pdv.status = "DISPONIVEL"
-            pdv.save().then(()=>{
-                req.flash('success_msg',"PDV "+pdv.nControle+" Disponibilizado para uso")  
-        }).catch((err)=>{
-            req.flash('error_msg',"Erro interno rpdv001")
-            res.redirect('/controle')
-        })
-
+    Pdv.findOne({_id: req.body.pdvUtil}).then((pdv)=>{       
         Moviment.findOne({_id: req.body.movUtil}).then((movimento)=>{
-        
-            movimento.retorno = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+            
+            movimento.retorno = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ");            
             movimento.save().then(()=>{
-                req.flash('success_',"Movimentação finalizada")
-                res.redirect('/controle')
-                console.log("Realizado retorno do PDV: " + movimento.nControle+ ", as "+ moment(new Date()).format('DD/MM/YYYY - HH:mm:ss'))
+                
+                req.flash('success_msg',"Movimentação finalizada")                
             }).catch((err)=>{
-                req.flash('error_msg',"Erro interno rpdv002")
+                req.flash('error_msg',"Erro ao encerrar movimento")
                 res.redirect('/controle')
             })
+        }).catch((err)=>{
+                req.flash('error_msg',"Não foi encontrado movimento para encerramento")
+                res.redirect('/controle')
         })
-    })  
 
+        pdv.status = "DISPONIVEL"
+            pdv.save().then(()=>{
+                req.flash('success_msg',"PDV "+pdv.nControle+" Disponibilizado para uso")
+                res.redirect('/controle')
+            }).catch((err)=>{
+            req.flash('error_msg',"Erro interno rpdv001")
+            res.redirect('/controle')
+            })   
+        console.log("Rralizado retorno do PDV: "+movimento.nControle+" as "+moment(new Date()).format("DD/MM/YYYY - HH:mm:ss"))
+    }).catch((err)=>{
+        req.flash('error_msg',"Não foi pdv para disponibilização")
+        res.redirect('/controle')
+    })
+
+   
 })
 
 //Seleciona PDV Para saida
@@ -114,7 +122,7 @@ router.post('/saida_pdv/saida',lOgado,(req,res)=>{
                     matricula: req.body.matricula,
                     destino: req.body.destino,
                     date: moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
-                    saida: moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ")                
+                    saida: moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ")                                    
                 }
                 
                 new Moviment(newMoviment).save().then(()=>{

@@ -33,8 +33,8 @@
         resave: true,
         saveUninitialized: true,
         cookie: { 
-            // Session expires after 1 min of inactivity.
-            expires: 60000 
+            // Session expires after 2 horas of inactivity.
+            expires: 7200 
                        
         }    
     }))

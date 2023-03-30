@@ -27,7 +27,7 @@ router.post('/por_periodo/pesquisar',lOgado,(req,res)=>{
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
         res.redirect('/consulta/por_periodo')
     }else{
-        Moviment.find({date: {$gte: dateMin, $lt: dateMax}}).then((movimentos)=>{
+        Moviment.find({date: {$gte: dateMin, $lt: dateMax}}).sort({date: 1, nControle: 1}).then((movimentos)=>{
 
             if(movimentos.length == 0){
                 req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
@@ -60,7 +60,7 @@ router.post('/por_matricula/pesquisar',lOgado,(req,res)=>{
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
         res.redirect('/consulta/por_matricula')
     }else{
-        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, matricula: req.body.matricula}).then((movimentos)=>{
+        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, matricula: req.body.matricula}).sort({date: 1, nControle: 1}).then((movimentos)=>{
             if(movimentos.length == 0){
                 req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
                 res.redirect('/consulta/por_matricula')
@@ -93,7 +93,7 @@ router.post('/por_veiculo/pesquisar',lOgado,(req,res)=>{
         res.redirect('/consulta/por_veiculo')
     }else{       
         
-        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, veiculo: req.body.veiculo}).then((movimentos)=>{
+        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, veiculo: req.body.veiculo}).sort({date: 1, nControle: 1}).then((movimentos)=>{
             if(movimentos.length == 0){
                 req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
                 res.redirect('/consulta/por_veiculo')
@@ -126,7 +126,7 @@ router.post('/por_pdv/pesquisar',lOgado,(req,res)=>{
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
         res.redirect('/consulta/por_pdv')
     }else{
-        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, nControle: req.body.nControle}).then((movimentos)=>{
+        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, nControle: req.body.nControle}).sort({date: 1, nControle: 1}).then((movimentos)=>{
             if(movimentos.length == 0){
                 req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
                 res.redirect('/consulta/por_pdv')
@@ -158,7 +158,7 @@ router.post('/por_destino/pesquisar',lOgado,(req,res)=>{
         req.flash('error_msg',"A data inicial não pode ser menor que a final")
         res.redirect('/consulta/por_destino')
     }else{
-        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, destino: req.body.destino}).then((movimentos)=>{
+        Moviment.find({date: {$gte: dateMin, $lt: dateMax}, destino: req.body.destino}).sort({date: 1, nControle: 1}).then((movimentos)=>{
             if(movimentos.length == 0){
                 req.flash('error_msg',"Não foi encontrado movimento para o periodo Informado")
                 res.redirect('/consulta/por_destino')

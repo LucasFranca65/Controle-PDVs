@@ -8,7 +8,7 @@ const Moviment = new Schema({
         required: true
     },    
     nControle:{
-        type: String,
+        type: Number,
         required: true
     },
     veiculo:{
