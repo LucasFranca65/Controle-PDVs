@@ -1,0 +1,44 @@
+<div class="mt-4"><p style="font-weight: bolder;">Informações para Saida de PDV</p></div>
+
+<form action="/admin/ver_pdv/editar" method="post">
+    <div class="container">  
+        
+        <input type="hidden" name="pdvId" value="{{pdv._id}}">
+        
+        <div class="row">        
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                    PDV Número: {{pdv.nControle}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                    <label for="empresa">Empresa:</label>
+                            <select class="form-control" name="empresa">
+                                <option value="{{pdv.empresa}}">{{pdv.empresa}}</option>
+                                <option value="Viação Regional">Viação Regional</option>
+                                <option value="Viação Jaua">Viação Jaua</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="nSerie">Nº Serie:</label>
+                        <input type="number" name="nSerie" value="{{pdv.nSerie}}">                            
+                    </div>
+                </div>
+            </div>
+        </div>    
+
+        
+    </div>
+    <button type="submit" class="btn btn-success mt-4">Salvar</button>
+</div>
+</form>

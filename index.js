@@ -32,11 +32,11 @@
         secret: "keyjhglas@@dghajkhgsdfjdsf$#@%6jkbdsfhjbfgfgdf564864d8f6g4fdglnaSD@$#@$%¨)i4KYh**sjkdfhwoeu&&&hxweubx",
         resave: true,
         saveUninitialized: true,
-        cookie: { 
+        /*cookie: { 
             // Session expires after 2 horas of inactivity.
             expires: 7200 
                        
-        }    
+        }*/
     }))
     app.use(passport.initialize())
     app.use(passport.session())

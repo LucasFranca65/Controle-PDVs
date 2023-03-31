@@ -100,6 +100,34 @@ router.get('/',(req,res)=>{
                    })
            }
     })
+    //seleciona Pdv para edição
+    router.get('/ver_pdv/:id',lOgado,(req,res)=>{
+        Pdv.findOne({_id: req.params.id}).then((pdv)=>{
+            res.render('admin/adm_ver_pdv',{pdv})
+        }).catch((err)=>{
+            req.flash('error_msg',"Erro ao encontrar pdv", err)
+            res.redirect('/admin/pdvs')
+        })
+    })
+    //Edita informações no banco de dados
+    router.post('/ver_pdv/editar',lOgado,(req,res)=>{
+        Pdv.findOne({_id: req.body.pdvId}).then((pdv)=>{
+            pdv.empresa = req.body.empresa,
+            pdv.nSerie = req.body.nSerie
+
+            pdv.save().then(()=>{
+                req.flash('success_msg',"Edição do PDV realizada com sucesso")
+                res.redirect('/admin/pdvs')
+            }).catch((err)=>{
+                req.flash('error_msg',"Erro ao tentar salvar informações de edição do PDV", err)
+                res.redirect('/admin/pdvs') 
+            })
+
+        }).catch((err)=>{
+            req.flash('error_msg',"Erro ao encontrar pdv", err)
+            res.redirect('/admin/pdvs')
+        })
+    })
 
 //Rotas de Administração de Usuarios
     //Rota Principal
@@ -290,5 +318,8 @@ router.get('/',(req,res)=>{
                 })
             }
     })
+
+
+
 
 module.exports = router
