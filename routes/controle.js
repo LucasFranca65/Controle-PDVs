@@ -41,7 +41,7 @@ router.get('/',lOgado,(req,res)=>{
 router.get('/retorno_pdv/:id',lOgado,(req,res)=>{
     //console.log(req.params.id)
     Pdv.findOne({_id: req.params.id}).then((pdv)=>{
-        Moviment.findOne({nControle: pdv.nControle, status: "EM USO"}).then((movimento)=>{
+        Moviment.findOne({nControle: pdv.nControle, retorno: null}).then((movimento)=>{
             res.render('controle/retorno_pdv',{pdv,movimento})
         }).catch((err)=>{
             req.flash('error_msg',"Erro Interno")
@@ -53,40 +53,48 @@ router.get('/retorno_pdv/:id',lOgado,(req,res)=>{
         res.redirect('/controle')
     })
 })
-//rota que realiza o retorno
+//rotas que realizam o retorno dos pedvs
 router.post('/retorno_pdv/retornar',lOgado,(req,res)=>{
-   
-    Pdv.findOne({_id: req.body.pdvUtil}).then((pdv)=>{       
-        Moviment.findOne({_id: req.body.movUtil}).then((movimento)=>{
-            
-            movimento.retorno = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ");            
-            movimento.save().then(()=>{
-                
-                req.flash('success_msg',"Movimentação finalizada")                
-            }).catch((err)=>{
-                req.flash('error_msg',"Erro ao encerrar movimento")
-                res.redirect('/controle')
-            })
+    let id_mov = req.body.movUtil
+    Pdv.findOne({_id: req.body.pdvUtil}).then((pdv)=>{
+        
+        pdv.status = "DISPONIVEL"
+        pdv.save().then(()=>{
+            console.log("PDV "+ pdv.nControle +" Disponibilizado ")
+            res.redirect('/controle/retorno_pdv/encerrar_mov/'+id_mov)
+            //req.flash("success_msg","PDV "+pdv.nControle+" Diponibilizado para uso -> ")
         }).catch((err)=>{
-                req.flash('error_msg',"Não foi encontrado movimento para encerramento")
-                res.redirect('/controle')
+            console.log(err)
+            req.flash('error_msg',"Erro ao disponibilizar o PDV "+pdv.nControle)
+            res.redirect('/controle')
         })
 
-        pdv.status = "DISPONIVEL"
-            pdv.save().then(()=>{
-                req.flash('success_msg',"PDV "+pdv.nControle+" Disponibilizado para uso")
-                res.redirect('/controle')
-            }).catch((err)=>{
-            req.flash('error_msg',"Erro interno rpdv001")
-            res.redirect('/controle')
-            })   
-        console.log("Rralizado retorno do PDV: "+movimento.nControle+" as "+moment(new Date()).format("DD/MM/YYYY - HH:mm:ss"))
     }).catch((err)=>{
-        req.flash('error_msg',"Não foi pdv para disponibilização")
+        console.log(err)
+        req.flash('error_msg',"Não foi encontrado PDV")
         res.redirect('/controle')
     })
+})
 
-   
+router.get('/retorno_pdv/encerrar_mov/:mov_id',lOgado,(req,res)=>{
+    
+    Moviment.findOne({_id: req.params.mov_id}).then((movimento)=>{
+                       
+            movimento.retorno = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+            movimento.save().then(()=>{
+                console.log(movimento)
+                req.flash('success_msg',"Movimento Encerado com sucesso")
+                res.redirect('/controle')
+            }).catch((err)=>{
+                console.log(err)
+                req.flash('error_msg',"Erro ao encerrar movimento")
+            })
+
+        }).catch((err)=>{
+            console.log(err)
+            req.flash('error_msg',"Não foi encontrado Movimento")
+            res.redirect('/controle')
+        })
 })
 
 //Seleciona PDV Para saida
@@ -103,18 +111,17 @@ router.post('/saida_pdv/saida',lOgado,(req,res)=>{
     
     Pdv.findOne({_id: req.body.pdvUtil}).then((pdvs)=>{ 
         Moviment.findOne({$and:[{retorno: null},{$or:[{matricula: req.body.matricula},{veiculo: req.body.veiculo}]}]}).then((movimento)=>{
-            //console.log(movimento)
+           
             if(movimento){
                 req.flash('error_msg',"Já Existe um movimento em aberto para essa matricula ou veiculo")
                 res.redirect('/controle')
-            }
-            
+            }            
             if(pdvs.status =="EM USO"){
                 req.flash('error_msg',"PDV Indisponivel no momento")
                 res.redirect('/controle')
             }
             else{
-                console.log(moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ"))
+                //console.log(moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ"))
                 const newMoviment = {
                     empresa: req.body.empresa,
                     nControle: pdvs.nControle,

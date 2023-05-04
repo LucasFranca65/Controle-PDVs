@@ -63,7 +63,7 @@
     //Mongoose
         mongoose.set("strictQuery", true)
         mongoose.Promise = global.Promise
-        mongoose.connect('mongodb://localhost/ControlePDVs').then(()=>{
+        mongoose.connect('mongodb://127.0.0.1/ControlePDVs').then(()=>{
             console.log("Conectado ao banco de dados com sucesso")
         }).catch((err)=>{
             console.log("Erro ao se conectar com o banco"+err)
@@ -143,12 +143,12 @@
         res.render('404')
     })
 
-    app.use((req,res,next)=>{
+    /*app.use((req,res,next)=>{
         req.flash('error_msg',"Algo deu errado, essa rota não existe")
         res.redirect('/error')
-    })
+    })*/
 
 //Outros
 app.listen(PORT,()=>{
-    console.log("Servidor rodando na porta:,  ",PORT)
+    console.log("Servidor rodando na porta: ",PORT)
 })
