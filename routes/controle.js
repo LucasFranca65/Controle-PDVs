@@ -82,7 +82,7 @@ router.get('/retorno_pdv/encerrar_mov/:mov_id',lOgado,(req,res)=>{
                        
             movimento.retorno = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
             movimento.save().then(()=>{
-                console.log(movimento)
+                //console.log(movimento)
                 req.flash('success_msg',"Movimento Encerado com sucesso")
                 res.redirect('/controle')
             }).catch((err)=>{
@@ -110,20 +110,29 @@ router.get('/saida_pdv/:id',lOgado,(req,res)=>{
 router.post('/saida_pdv/saida',lOgado,(req,res)=>{
     
     Pdv.findOne({_id: req.body.pdvUtil}).then((pdvs)=>{ 
-        Moviment.findOne({$and:[{retorno: null},{$or:[{matricula: req.body.matricula},{veiculo: req.body.veiculo}]}]}).then((movimento)=>{
-           
+       // let query = {$and:[{retorno: null},{$or:[{matricula: req.body.matricula},{veiculo: req.body.veiculo}]}]}
+       let query = {$or:[{matricula: req.body.matricula},{veiculo: req.body.veiculo}],$and:[{retorno: null}]} 
+       Moviment.findOne(query).then((movimento)=>{
+            
             if(movimento){
-                req.flash('error_msg',"Já Existe um movimento em aberto para essa matricula ou veiculo")
-                res.redirect('/controle')
-            }            
-            if(pdvs.status =="EM USO"){
-                req.flash('error_msg',"PDV Indisponivel no momento")
-                res.redirect('/controle')
-            }
-            else{
+
+                if(movimento.matricula == req.body.matricula){
+                    if(movimento.veiculo == req.body.veiculo){
+                        req.flash('error_msg',"Já existe um movimento em aberto para o veiculo " + req.body.veiculo + " e matricula "+ req.body.matricula)
+                        res.redirect('/controle')
+                    }else{
+                        req.flash('error_msg',"Já existe um movimento em aberto para a matricula "+ req.body.matricula)
+                        res.redirect('/controle')                        
+                    }                    
+                }else{
+                    req.flash('error_msg',"Já existe um movimento em aberto para o veiculo "+ req.body.veiculo)
+                    res.redirect('/controle')
+                }
+
+            }else{
                 //console.log(moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ"))
                 const newMoviment = {
-                    empresa: req.body.empresa,
+                    empresa: pdvs.empresa,
                     nControle: pdvs.nControle,
                     veiculo: req.body.veiculo,
                     matricula: req.body.matricula,
@@ -137,23 +146,23 @@ router.post('/saida_pdv/saida',lOgado,(req,res)=>{
                 }).catch((err)=>{
                     req.flash('error_msg',"Erro Interno000003"+err)
                     res.redirect('/controle')
+                })        
+
+                pdvs.status = "EM USO"
+                pdvs.save().then(()=>{
+                    req.flash('success_msg',"Saida Gravada com sucesso")
+                    res.redirect('/controle')
+                }).catch((err)=>{
+                    req.flash('error_msg',"Erro Interno0009"+err)
+                    res.redirect('/controle')
                 })
-                
-            pdvs.status = "EM USO"        
-            
-            pdvs.save().then(()=>{
-                req.flash('success_msg',"Saida Gravada com sucesso")
-                res.redirect('/controle')
-            }).catch((err)=>{
-                req.flash('error_msg',"Erro Interno0009"+err)
-                res.redirect('/controle')
-            })
             }
-            console.log("Realizada saida do PDV " + pdvs.nControle + ", as "+ moment(new Date()).format('DD/MM/YYYY - HH:mm:ss'))
+            
         }).catch((err)=>{
-            req.flash('error_msg',"Erro Interno0019"+err)
-            res.redirect('/controle')
+                req.flash('error_msg',"Erro Interno0019"+err)
+                res.redirect('/controle')
         })
+
     }).catch((err)=>{
         req.flash('error_msg',"Não foi encontrado PDV Para esses Parametros",err)
         res.redirect('/controle')
