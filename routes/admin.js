@@ -287,7 +287,7 @@ router.get('/',(req,res)=>{
     router.post('/movimento/dell_movimento',eAdmin,(req,res)=>{
         
         if(req.body.ident == undefined){
-            req.flash('error_msg',"Nenhum Usuario Selecionado para exclusão")
+            req.flash('error_msg',"Nenhum PDV Selecionado para exclusão")
             res.redirect('/controle')
         }else{       
             var query = {"_id":{$in:req.body.ident}}       
