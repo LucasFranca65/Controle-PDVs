@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const {eAdmin} = require('../helpers/eAdmin')
 const {lOgado} = require('../helpers/eAdmin')
+const moment = require('moment')
 //Mongoose Models
 require('../models/Pdv')
 const Pdv = mongoose.model('pdvs')
@@ -23,7 +24,7 @@ router.get('/',(req,res)=>{
     //Rota Principal dos PDVs
     router.get('/pdvs',lOgado,(req,res)=>{
 
-        Pdv.find().lean().then((pdvs)=>{
+        Pdv.find().lean().sort({nControle: 1}).then((pdvs)=>{
             res.render('admin/adm_pdvs',{pdvs: pdvs})
         }).catch((err)=>{
             console.log(err)
@@ -86,19 +87,46 @@ router.get('/',(req,res)=>{
     })
     //Rota que exclui pdvs
     router.post('/pdvs/dell_pdv',eAdmin,(req,res)=>{
+        let query = {"_id":{$in:req.body.ident}}
+        let pdvsExc = []
         if(req.body.ident == undefined){
             req.flash('error_msg',"Nenhum PDV Selecionado para exclusão")
             res.redirect('/admin/pdvs')
-           }else{       
-               var query = {"_id":{$in:req.body.ident}}       
-                   Pdv.deleteMany(query).then(()=>{
-                       req.flash('success_msg',"PDVs selecionados Excluidos com sucesso")
-                       res.redirect('/admin/pdvs')
-                   }).catch((err)=>{
-                       req.flash('error_msg',"Não foi encontrados pdvs com os parametros informados")
-                       res.redirect('/admin/pdvs')
-                   })
-           }
+        }else{
+                        
+            Pdv.find(query).then((pdvs)=>{
+                let i = 0
+                    while(i < pdvs.length){
+                        pdvsExc[i] = pdvs[i].nControle
+                        Moviment.findOne({nControle: pdvs[i].nControle, retorno: null}).then((movimento)=>{
+                            //console.log(movimento)
+                            if(movimento){
+                                movimento.retorno = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+                                movimento.save().then(()=>{
+                                    console.log("Movimento com o PDV "+movimento.nControle+" Encerrado com sucesso")
+                                    req.flash('success_msg',"Movimento com o PDV "+ movimento.nControle +" Encerrado com sucesso")
+                                }).catch((err)=>{
+                                    req.flash('error_msg',"Erro ao encerar movimento: "+err)
+                                    res.redirect('/controle')
+                                })
+                            }                            
+                        }) 
+                        i++
+                    }
+            }).catch((err)=>{
+                req.flash('error_msg',"Erro na busca pdvs com os parametros informados")
+                res.redirect('/admin/pdvs')
+            })
+            
+            Pdv.deleteMany(query).then(()=>{        
+                console.log("PDVS "+ pdvsExc +" selecionados Excluidos com sucesso")              
+                req.flash('success_msg',"PDVs"+ pdvsExc+ " selecionados Excluidos com sucesso")
+                res.redirect('/admin/pdvs')
+            }).catch((err)=>{
+                req.flash('error_msg',"Não foi encontrados pdvs com os parametros informados: "+err)
+                res.redirect('/admin/pdvs')
+            })
+        }
     })
     //seleciona Pdv para edição
     router.get('/ver_pdv/:id',lOgado,(req,res)=>{
@@ -113,7 +141,8 @@ router.get('/',(req,res)=>{
     router.post('/ver_pdv/editar',lOgado,(req,res)=>{
         Pdv.findOne({_id: req.body.pdvId}).then((pdv)=>{
             pdv.empresa = req.body.empresa,
-            pdv.nSerie = req.body.nSerie
+            pdv.nSerie = req.body.nSerie,
+            pdv.modelo = req.body.modelo
 
             pdv.save().then(()=>{
                 req.flash('success_msg',"Edição do PDV realizada com sucesso")
@@ -297,20 +326,22 @@ router.get('/',(req,res)=>{
                     while(i < movimento.length){                       
                       
                         Pdv.findOne({nControle: movimento[i].nControle}).then((pdv)=>{
-                            pdv.status = "DISPONIVEL"
-                            pdv.save().then(()=>{
-                                req.flash('success_msg',"PDV "+pdv.nControle+" Disponibilizado para uso")
-                            }).catch((err)=>{
-                                req.flash('error_msg',"Erro ao disponibilizar PDV do movimento a ser excluido")
-                                res.redirect('/controle')
-                            })
+                            if(pdv){
+                                pdv.status = "DISPONIVEL"
+                                pdv.save().then(()=>{
+                                    req.flash('success_msg',"PDV "+pdv.nControle+" Disponibilizado para uso")
+                                }).catch((err)=>{
+                                    req.flash('error_msg',"Erro ao disponibilizar PDV do movimento a ser excluido")
+                                    res.redirect('/controle')
+                                })
+                            }                            
                         }) 
-                            i++
+                        i++
                     } 
                         
                     Moviment.deleteMany(query).then(()=>{                    
                         req.flash('success_msg',"Movimentos selecionados Excluidos com sucesso")
-                        res.redirect('/controle')
+                        res.redirect('/consulta/por_periodo')
                     }).catch((err)=>{
                         req.flash('error_msg',"Não foi encontrados mocimentos com os parametros informados")
                         res.redirect('/controle')
@@ -318,8 +349,5 @@ router.get('/',(req,res)=>{
                 })
             }
     })
-
-
-
-
+    
 module.exports = router

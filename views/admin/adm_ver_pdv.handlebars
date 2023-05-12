@@ -9,7 +9,8 @@
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                    PDV Número: {{pdv.nControle}}
+                    <label for="">Nº de Controle:</label>
+                    <p>{{pdv.nControle}}</p>
                     </div>
                 </div>
             </div>
@@ -30,8 +31,22 @@
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <label for="nSerie">Nº Serie:</label>
-                        <input type="number" name="nSerie" value="{{pdv.nSerie}}">                            
+                    <label for="modelo">Modelo:</label>
+                            <select class="form-control" name="modelo">
+                                <option value="{{pdv.modelo}}">{{pdv.modelo}}</option>
+                                <option value="Clielo Lio V1 - Azul">Clielo Lio V1 - Azul</option>
+                                <option value="Cielo Lio V2 - Preta">Cielo Lio V2 - Preta</option>
+                                <option value="Bematech Smart POE">Bematech Smart POE</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <label for="nSerie">IMEI:</label>
+                        <input class="form-control" type="number" name="nSerie" value="{{pdv.nSerie}}">                            
                     </div>
                 </div>
             </div>

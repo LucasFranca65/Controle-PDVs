@@ -13,13 +13,13 @@
                         <th scope="col">Nº Controle</th>
                         <th scope="col">Empresa</th>
                         <th scope="col">Modelo</th>
-                        <th scope="col">Nº Serie</th>                                
+                        <th scope="col">IMEI</th>                                
                     </tr>
                 </thead>
                 <tbody>
                     <tr>                                
                         <td>
-                            <input class="form-control" type="number" name="nControle" >
+                            <input class="form-control" type="number" name="nControle" min="0" max="99" >
                         </td>
                         <td>
                             <select class="form-control" name="empresa">
@@ -37,7 +37,7 @@
                                 <option value="Bematech Smart POE">Bematech Smart POE</option>
                             </select>
                         </td>
-                        <td><input class="form-control" type="number" name="nSerie"></td>
+                        <td><input class="form-control" type="number" name="nSerie" min="100000000000000" max="999999999999999"></td>
                     </tr>                                    
                 </tbody>
             </table>
@@ -57,7 +57,7 @@
                                 <th scope="col">Nº Controle</th>
                                 <th scope="col">Empresa</th>
                                 <th scope="col">Modelo</th>
-                                <th scope="col">Nº Serie</th>
+                                <th scope="col">IMEI</th>
                             </tr>
                         </thead>
                         {{#each pdvs}}

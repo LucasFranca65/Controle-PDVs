@@ -150,6 +150,7 @@ router.post('/saida_pdv/saida',lOgado,(req,res)=>{
 
                 pdvs.status = "EM USO"
                 pdvs.save().then(()=>{
+                    console.log("PDV "+pdvs.nControle+" Em uso")
                     req.flash('success_msg',"Saida Gravada com sucesso")
                     res.redirect('/controle')
                 }).catch((err)=>{
